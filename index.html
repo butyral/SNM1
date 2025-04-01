@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SNM - Мы знаем, где это взять</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Press+Start+2P&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #262626;
+            color: #EFE9DB;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        /* Бургер-меню */
+        .burger-menu {
+            position: fixed;
+            right: 50px;
+            top: 60px;
+            z-index: 1000;
+            cursor: pointer;
+            width: 30px;
+            height: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .burger-line {
+            width: 100%;
+            height: 3px;
+            background: #EFE9DB;
+            transition: all 0.3s ease;
+        }
+        
+        .burger-menu.active .burger-line:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        
+        .burger-menu.active .burger-line:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .burger-menu.active .burger-line:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+        
+        /* Меню */
+        .menu {
+            position: fixed;
+            right: 50px;
+            top: 100px;
+            display: none;
+            flex-direction: column;
+            color: #EFE9DB;
+            font-size: 18px;
+            font-weight: 800;
+            text-transform: uppercase;
+            line-height: 35px;
+            background: rgba(38, 38, 38, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 999;
+        }
+        
+        .menu.active {
+            display: flex;
+        }
+        
+        .menu a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .menu a:hover {
+            color: #c4b9a1;
+        }
+        
+        /* Секции лендинга */
+        .section {
+            width: 100%;
+            height: 810px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Первая секция */
+        .section-1 {
+            background-image: url('images/hero.png');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .logo-img {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            left: 28px;
+            top: 60px;
+        }
+        
+        .logo-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .logo-text {
+            position: absolute;
+            left: 148px;
+            top: 60px;
+            color: #EFE9DB;
+            font-size: 200px;
+            font-family: 'Press Start 2P', cursive;
+            font-weight: 400;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+        
+        .slogan {
+            position: absolute;
+            left: 148px;
+            top: 250px;
+            color: #262626;
+            font-size: 50px;
+            font-weight: 600;
+            line-height: 1.3;
+            width: auto;
+        }
+        
+        .gradient-overlay {
+            position: absolute;
+            width: 100%;
+            height: 261px;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(115, 115, 115, 0) 0%, #EFE9DB 100%);
+        }
+        
+        /* Вторая секция */
+        .section-2 {
+            background: #EFE9DB;
+        }
+        
+        .who-we-are {
+            position: absolute;
+            left: 102px;
+            top: 127px;
+            color: #C14432;
+            font-size: 200px;
+            font-family: 'Press Start 2P', cursive;
+            font-weight: 400;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+        
+        .description {
+            position: absolute;
+            width: 568px;
+            left: 770px;
+            top: 127px;
+            text-align: justify;
+            color: #182F4D;
+            font-size: 40px;
+            font-weight: 600;
+            text-transform: uppercase;
+            line-height: 35px;
+        }
+        
+        .marquee-container {
+            width: 100%;
+            height: 100px;
+            position: absolute;
+            left: 0;
+            top: 583px;
+            overflow: hidden;
+        }
+        
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%;
+            will-change: transform;
+        }
+        
+        .marquee-text {
+            display: inline-block;
+            color: #262626;
+            font-size: 113px;
+            font-family: 'Press Start 2P', cursive;
+            font-weight: 400;
+            text-transform: uppercase;
+            line-height: 100px;
+            padding-right: 50px;
+        }
+        
+        .marquee-animate .marquee-content {
+            animation: marquee 15s linear infinite;
+        }
+        
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Третья секция - услуги */
+        .section-3 {
+            background: #EFE9DB;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .services-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            perspective: 1000px;
+            padding-left: 28px;
+        }
+        
+        .services-track {
+            display: flex;
+            height: 100%;
+            align-items: center;
+            position: relative;
+            transition: transform 0.5s ease;
+        }
+        
+        .service-card {
+            width: 469px;
+            height: 612px;
+            border-radius: 30px;
+            padding: 30px;
+            position: absolute;
+            left: 25%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.5s ease;
+            cursor: grab;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            color: #EFE9DB;
+            font-weight: 800;
+        }
+        
+        .service-card:active {
+            cursor: grabbing;
+        }
+        
+        .service-card h3 {
+            width: 439px;
+            text-align: left;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        
+        .service-card.active {
+            background: #C14432;
+            box-shadow: 3px 3px 30px rgba(255, 255, 255, 0.3),
+            0 0 40px rgba(193, 68, 50, 0.9);;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            z-index: 10;
+        }
+        
+        .service-card.inactive {
+            background: #1F3C66;
+            opacity: 0.4;
+            transform: translate(-50%, -50%) scale(0.8) translateX(150px) rotateY(20deg);
+            display: none;
+        }
+        
+        .service-card.inactive.left {
+            transform: translate(-50%, -50%) scale(0.8) translateX(-150px) rotateY(-20deg);
+            display: block;
+        }
+        
+        .service-card.inactive.right {
+            transform: translate(-50%, -50%) scale(0.8) translateX(150px) rotateY(20deg);
+            display: block;
+        }
+        
+        .service-card.hidden {
+            display: none;
+        }
+        
+        .nav-dots {
+            position: absolute;
+            bottom: 50px;
+            left: 20%;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #C14432;
+            opacity: 0.3;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dot.active {
+            opacity: 1;
+            transform: scale(1.3);
+        }
+
+        /* Секция заголовка услуг */
+        .services-title {
+            position: absolute;
+            left: 906px;
+            top: 105px;
+            right: 148px;
+            bottom: 105px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            color: #C14432;
+            font-size: 200px;
+            font-family: 'Press Start 2P', cursive;
+            font-weight: 400;
+            text-transform: uppercase;
+            word-wrap: break-word;
+        }
+        
+        /* Стили для конкретных карточек */
+        .service-card:nth-child(1) h3 {
+            font-size: 79px;
+            line-height: 100px;
+        }
+        
+        .service-card:nth-child(2) h3 {
+            font-size: 63px;
+            line-height: 70px;
+        }
+        
+        .service-card:nth-child(3) h3 {
+            font-size: 79px;
+            line-height: 100px;
+        }
+        
+        .service-card:nth-child(4) h3 {
+            font-size: 77px;
+            line-height: 80px;
+        }
+        
+        .service-card:nth-child(5) h3 {
+            font-size: 70px;
+            line-height: 80px;
+        }
+        
+        .service-card:nth-child(6) h3 {
+            font-size: 79px;
+            line-height: 90px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Бургер-меню -->
+    <div class="burger-menu" id="burgerMenu">
+        <div class="burger-line"></div>
+        <div class="burger-line"></div>
+        <div class="burger-line"></div>
+    </div>
+    
+    <!-- Основное меню -->
+    <nav class="menu" id="mainMenu">
+        <a href="#section1">ГЛАВНАЯ</a>
+        <a href="#section2">о нас</a>
+        <a href="#section3">УСЛУГИ</a>
+        <a href="#">контакты</a>
+    </nav>
+    
+    <!-- Секция 1 -->
+    <section id="section1" class="section section-1">
+        <div class="logo-img">
+            <img src="images/small logo.png" alt="Логотип">
+        </div>
+        
+        <div class="logo-text">SNM</div>
+        
+        <div class="slogan">мы знаем, где это взять</div>
+        
+        <div class="gradient-overlay"></div>
+    </section>
+    
+    <!-- Секция 2 -->
+    <section id="section2" class="section section-2">
+        <div class="who-we-are">кто<br/>мы?</div>
+        
+        <div class="description">
+            SNM - это команда профессионалов с опытом работы на китайском рынке<br/><br/>
+            Мы помогаем находить лучшие товары, организовывать производство и доставку, экономя ваше время и деньги
+        </div>
+        
+        <div class="marquee-container" id="marquee-container">
+            <div class="marquee-content">
+                <div class="marquee-text">
+                    Мы говорим на языке вашего бизнеса
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция 3 - Услуги -->
+    <section id="section3" class="section section-3">
+        <div class="services-title">УС<br/>ЛУ<br/>ГИ</div>
+        
+        <div class="services-container">
+            <div class="services-track" id="servicesTrack">
+                <div class="service-card hidden">
+                    <h3>ВЫКУП ТОВАРОВ</h3>
+                </div>
+                <div class="service-card inactive left">
+                    <h3>ЛОГИСТИКА<br/>И<br/>ДОСТАВКА</h3>
+                </div>
+                <div class="service-card active">
+                    <h3>ПОДБОР ТОВАРОВ</h3>
+                </div>
+                <div class="service-card inactive right">
+                    <h3>БРЕНДИ<br/>РОВАНИЕ</h3>
+                </div>
+                <div class="service-card hidden">
+                    <h3>КОНТРОЛЬ<br/>КАЧЕСТВА</h3>
+                </div>
+                <div class="service-card hidden">
+                    <h3>КОНСУЛЬ<br/>ТАЦИИ</h3>
+                </div>
+            </div>
+            
+            <div class="nav-dots">
+                <div class="dot"></div>
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const burgerMenu = document.getElementById('burgerMenu');
+            const mainMenu = document.getElementById('mainMenu');
+            const marqueeContainer = document.getElementById('marquee-container');
+            const section2 = document.getElementById('section2');
+            let animationTimeout = null;
+            
+            // Управление бургер-меню
+            burgerMenu.addEventListener('click', function() {
+                this.classList.toggle('active');
+                mainMenu.classList.toggle('active');
+            });
+            
+            // Закрытие меню при клике на пункт
+            mainMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    burgerMenu.classList.remove('active');
+                    mainMenu.classList.remove('active');
+                });
+            });
+            
+            // Функция для проверки видимости секции
+            function checkSectionVisibility() {
+                const rect = section2.getBoundingClientRect();
+                const isVisible = (rect.top <= window.innerHeight) && 
+                                (rect.bottom >= 0);
+                
+                clearTimeout(animationTimeout);
+                
+                if (isVisible) {
+                    animationTimeout = setTimeout(() => {
+                        marqueeContainer.classList.add('marquee-animate');
+                    }, 700);
+                } else {
+                    marqueeContainer.classList.remove('marquee-animate');
+                }
+            }
+            
+            // Проверяем при скролле
+            window.addEventListener('scroll', checkSectionVisibility);
+            
+            // Проверяем при загрузке
+            checkSectionVisibility();
+            
+            // Плавный скролл для якорных ссылок
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Код для карусели услуг
+            const track = document.getElementById('servicesTrack');
+            const cards = Array.from(document.querySelectorAll('.service-card'));
+            const dots = document.querySelectorAll('.services-container .dot');
+            let startX, moveX;
+            let currentIndex = 2; // Центральная карточка по умолчанию
+            
+            // Инициализация позиций карточек
+            function updateCards() {
+                cards.forEach((card, index) => {
+                    // Сначала скрываем все карточки
+                    card.classList.add('hidden');
+                    card.classList.remove('active', 'inactive', 'left', 'right');
+                });
+                
+                // Показываем только нужные карточки
+                if (currentIndex > 0) {
+                    cards[currentIndex - 1].classList.remove('hidden');
+                    cards[currentIndex - 1].classList.add('inactive', 'left');
+                }
+                
+                cards[currentIndex].classList.remove('hidden');
+                cards[currentIndex].classList.add('active');
+                
+                if (currentIndex < cards.length - 1) {
+                    cards[currentIndex + 1].classList.remove('hidden');
+                    cards[currentIndex + 1].classList.add('inactive', 'right');
+                }
+                
+                // Обновляем точки навигации
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+            }
+            
+            // Перемещение карточек
+            function moveToIndex(newIndex) {
+                if (newIndex >= 0 && newIndex < cards.length) {
+                    currentIndex = newIndex;
+                    updateCards();
+                }
+            }
+            
+            // Обработка касаний
+            track.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+            }, {passive: true});
+            
+            track.addEventListener('touchmove', (e) => {
+                moveX = e.touches[0].clientX;
+                const diff = moveX - startX;
+                track.style.transform = `translateX(${diff}px)`;
+            }, {passive: true});
+            
+            track.addEventListener('touchend', (e) => {
+                const diff = moveX - startX;
+                
+                if (Math.abs(diff) > 50) { // Минимальное расстояние свайпа
+                    if (diff > 0) {
+                        // Свайп вправо - предыдущая карточка
+                        moveToIndex(currentIndex - 1);
+                    } else {
+                        // Свайп влево - следующая карточка
+                        moveToIndex(currentIndex + 1);
+                    }
+                }
+                
+                track.style.transform = 'translateX(0)';
+            }, {passive: true});
+            
+            // Навигация по точкам
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    moveToIndex(index);
+                });
+            });
+            
+            // Инициализация
+            updateCards();
+        });
+    </script>
+</body>
+</html>
